@@ -8,7 +8,7 @@ body {
 
 .container {
   padding: 20px;
-  min-height: 100vh;
+  margin-top: 100px;
 }
 
 .text-center {
@@ -16,7 +16,7 @@ body {
   width: 100vh;
   color: white;
   background-color: #333;
-  margin: 25vh;
+  margin: 55vh;
   border-radius: 20px;
 }
 
@@ -63,4 +63,11 @@ h1 {
   color: #28a745;
   font-weight: bold;
   margin-top: 5px;
+}
+
+.footer {
+  place-items: center;
+  padding: 50px;
+  text-decoration: underline;
+  font-size: 20px;
 }
