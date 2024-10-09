@@ -1,18 +1,29 @@
-html {
-  background-color: #333;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .container {
-  background-color: #333;
-}
-
-h1 {
-  font-size: 30;
-  color: white;
+  padding: 20px;
+  min-height: 100vh;
 }
 
 .text-center {
   font-size: 100px;
+  width: 100vh;
+  color: white;
+  background-color: #333;
+  margin: 25vh;
+  border-radius: 20px;
+}
+
+h1 {
+  font-size: 3rem;
+  color: white;
+  text-align: center;
 }
 
 .grid-container {
@@ -23,10 +34,12 @@ h1 {
 }
 
 .grid-item {
+  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.2s;
 }
 
 .grid-item:hover {
