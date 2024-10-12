@@ -20,6 +20,11 @@ body {
   border-radius: 10px;
 }
 
+.head5 {
+  color: white;
+  padding: 20px;
+  margin-top: 30px;
+}
 h1 {
   font-size: 3rem;
   color: white;
