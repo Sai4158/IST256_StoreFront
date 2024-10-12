@@ -37,7 +37,7 @@ h1 {
 }
 
 .grid-item {
-  background-color: #fff;
+  background-color: #272626;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -57,7 +57,7 @@ h1 {
 
 .item-title {
   font-size: 1.2rem;
-  color: #333;
+  color: white;
   margin-top: 10px;
 }
 
@@ -70,7 +70,7 @@ h1 {
 
 .footer {
   text-align: center;
-  background-color: #333;
+  background-color: #272626;
   color: white;
   padding: 20px;
   margin-top: 40px;

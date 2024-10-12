@@ -6,7 +6,6 @@ document
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
 
-    // Create a shopper object
     const shopper = {
       name: name,
       email: email,
