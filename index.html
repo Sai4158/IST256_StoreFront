@@ -18,6 +18,25 @@
     <div class="container">
       <div class="grid-container" id="productGrid"></div>
 
+      <!-- Search for a product -->
+      <div class="form2">
+        <hr />
+        <h2>Search Product</h2>
+        <form id="searchForm">
+          <div class="mb-3">
+            <label for="searchName" class="form-label"
+              >Search Product by Name</label
+            >
+            <input type="text" class="form-control" id="searchName" />
+          </div>
+          <button type="submit" class="btn btn-primary">Search Product</button>
+        </form>
+        <hr />
+
+        <h2 class="my-4">Submitted Product Information</h2>
+        <pre id="productDetails" style="display: block"></pre>
+      </div>
+
       <!-- Add a new product -->
       <hr />
       <h2>Add Product</h2>
@@ -67,25 +86,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit Product</button>
       </form>
-
-      <!-- Search for a product -->
-      <div class="form2">
-        <hr />
-        <h2>Search Product</h2>
-        <form id="searchForm">
-          <div class="mb-3">
-            <label for="searchName" class="form-label"
-              >Search Product by Name</label
-            >
-            <input type="text" class="form-control" id="searchName" />
-          </div>
-          <button type="submit" class="btn btn-primary">Search Product</button>
-        </form>
-        <hr />
-
-        <h2 class="my-4">Submitted Product Information</h2>
-        <pre id="productDetails" style="display: block"></pre>
-      </div>
     </div>
 
     <!-- Footer-->
