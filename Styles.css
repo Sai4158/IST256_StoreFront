@@ -6,6 +6,24 @@ body {
   width: 100%;
 }
 
+.item-title {
+  color: white;
+}
+.item-price {
+  color: white;
+}
+.item-description {
+  color: white;
+}
+.item-category {
+  color: white;
+}
+.item-unit {
+  color: white;
+}
+.item-weight {
+  color: white;
+}
 .container {
   padding: 20px;
   margin-top: 50px;
