@@ -16,7 +16,22 @@
     <h1 class="text-center my-4">Fruit Storefront</h1>
 
     <div class="container">
-      <div class="grid-container" id="productGrid"></div>
+      <div class="row">
+        <!-- Product Grid Section -->
+        <div class="col-md-8">
+          <div class="grid-container" id="productGrid"></div>
+        </div>
+
+        <!-- Shopping Cart Section -->
+        <div class="col-md-4">
+          <hr />
+          <h2>Shopping Cart</h2>
+          <h5>Add all items</h5>
+          <hr />
+          <ul id="cartItems" class="list-group"></ul>
+          <h3><span id="cartTotal">0.00</span></h3>
+        </div>
+      </div>
 
       <!-- Search for a product -->
       <div class="form2">

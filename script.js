@@ -1,4 +1,3 @@
-
 // items in the json format
 let products = [
   {
@@ -52,7 +51,86 @@ products.forEach((product) => {
   addProductToGrid(product);
 });
 
-// Form submission
+// Empty cart
+let cart = [];
+
+// Add product to the grid
+function addProductToGrid(product) {
+  const gridItem = `
+    <div class="grid-item">
+      <img src="${product.image}" alt="${product.name}" class="item-image" />
+      <h3 class="item-title">${product.name}</h3>
+      <p class="item-price">$${product.price}</p>
+      <p class="item-description">${product.description}</p>
+      <p class="item-category">Category: ${product.category}</p>
+      <p class="item-unit">Unit: ${product.unit}</p>
+      <p class="item-weight">Weight: ${product.weight}</p>
+      <button class="btn btn-success addToCart" data-id="${product.id}">Add to Cart</button>
+    </div>
+  `;
+  $("#productGrid").append(gridItem);
+}
+
+// Add to Cart functionality
+$(document).on("click", ".addToCart", function () {
+  const productId = $(this).data("id").toString();
+  const product = products.find((p) => p.id === productId);
+
+  if (product) {
+    const cartItem = cart.find((item) => item.id === productId);
+
+    if (cartItem) {
+      cartItem.quantity++;
+    } else {
+      cart.push({ ...product, quantity: 1 });
+    }
+
+    updateCart();
+  } else {
+    alert("Product not found.");
+  }
+});
+
+// Update Cart display
+function updateCart() {
+  let cartHTML = "";
+  let total = 0;
+
+  cart.forEach((item) => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+
+    cartHTML += `
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        ${item.name} x ${item.quantity} - $${itemTotal.toFixed(2)}
+        <button class="btn btn-danger btn-sm removeItem" data-id="${
+          item.id
+        }">Remove</button>
+      </li>
+    `;
+  });
+
+  // Display cart items
+  if (cartHTML === "") {
+    cartHTML = "<p>Your cart is empty.</p>";
+  }
+  $("#cartItems").html(cartHTML);
+
+  // Update total price
+  $("#cartTotal").text(`Total: $${total.toFixed(2)}`);
+}
+
+// Remove item from Cart
+$(document).on("click", ".removeItem", function () {
+  const productId = $(this).data("id").toString();
+
+  // Remove the item from the cart based on the id
+  cart = cart.filter((item) => item.id !== productId);
+
+  updateCart();
+});
+
+// Form submission for adding new products
 $("#productForm").on("submit", function (event) {
   event.preventDefault();
 
@@ -96,30 +174,13 @@ $("#productForm").on("submit", function (event) {
   }
 });
 
-// Add product to the grid
-function addProductToGrid(product) {
-  const gridItem = `
-    <div class="grid-item">
-      <img src="${product.image}" alt="${product.name}" class="item-image" />
-      <h3 class="item-title">${product.name}</h3>
-      <p class="item-price">$${product.price}</p>
-      <p class="item-description">${product.description}</p>
-      <p class="item-category">Category: ${product.category}</p>
-      <p class="item-unit">Unit: ${product.unit}</p>
-      <p class="item-weight">Weight: ${product.weight}</p>
-    </div>
-  `;
-  $("#productGrid").append(gridItem);
-}
-
-// Display as JSON
+// Display added product details as JSON
 function displayProductDetails(product) {
   const productDetails = `
     <pre>${JSON.stringify(product, null, 2)}</pre>
   `;
   $("#productDetails").append(productDetails);
 }
-
 
 $("#searchForm").on("submit", function (event) {
   event.preventDefault();
@@ -150,7 +211,7 @@ function searchProduct(searchValue) {
   if (found) {
     alert("Product found.");
   } else {
-    alert("Not found, please add it.");
+    alert("Not found, please search by name!!!");
   }
 
   return found;
