@@ -189,30 +189,42 @@ $("#searchForm").on("submit", function (event) {
 
   if (searchValue) {
     const found = searchProduct(searchValue);
-    if (!found) {
+    if (found) {
       alert("Product not found.");
     }
-  } else {
-    alert("Please enter a product name to search.");
   }
 });
 
 // Function to search for a product by name
 function searchProduct(searchValue) {
+  if (!searchValue) {
+    // If the search term is empty, show all products and return
+    $(".grid-item").show();
+    return;
+  }
+
   let found = false;
 
   $(".grid-item").each(function () {
     const productName = $(this).find(".item-title").text().toLowerCase();
-    if (productName.includes(searchValue)) {
+    if (productName.indexOf(searchValue.toLowerCase()) > -1) {
+      $(this).show();
       found = true;
+    } else {
+      $(this).hide();
     }
   });
 
-  if (found) {
-    alert("Product found.");
-  } else {
-    alert("Not found, please search by name!!!");
+  // If no products were found, show all products and alert it
+  if (!found) {
+    $(".grid-item").show();
+    alert("NOT FOUND!");
   }
-
-  return found;
 }
+
+// Handle "Go back" button to reset the search and show all products
+$("#goBack").on("click", function (e) {
+  e.preventDefault();
+  $(".grid-item").show();
+  $("#searchName").val("");
+});
