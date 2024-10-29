@@ -47,7 +47,7 @@ h1 {
   font-size: 3rem;
   color: white;
   text-align: center;
-  background-color: #444;
+  background-color: #dcf0f6;
   padding: 20px;
   border-radius: 10px;
 }
@@ -112,3 +112,29 @@ h1 {
 .footer a:hover {
   text-decoration: underline;
 }
+
+.navbar-nav .nav-link {
+  color: black;
+  padding: 0 15px;
+  font-size: 25px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: black;
+}
+
+.navbar-light .navbar-toggler {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.navbar-nav :hover {
+  scale: 1.05;
+  transition: all;
+}
+
+.navbar-nav {
+  gap: 40px;
+}
+
+

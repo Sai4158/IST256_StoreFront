@@ -228,3 +228,27 @@ $("#goBack").on("click", function (e) {
   $(".grid-item").show();
   $("#searchName").val("");
 });
+
+// Field integrity check example for the shipping form
+$("#shippingForm").on("submit", function (event) {
+  event.preventDefault();
+
+  const destination = $("#destination").val();
+  const carrier = $("#carrier").val();
+  const method = $("#method").val();
+
+  if (!destination || !carrier || !method) {
+    alert("All fields are required.");
+    return;
+  }
+
+  sendShippingDetails({ destination, carrier, method });
+});
+
+//  Displaying Shipping Details as JSON -  not in use need restful API service
+function displayShippingDetails(details) {
+  const shippingDetails = `
+    <pre>${JSON.stringify(details, null, 2)}</pre>
+  `;
+  $("#productDetails").append(shippingDetails);
+}
