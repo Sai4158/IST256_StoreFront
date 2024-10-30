@@ -2,8 +2,10 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
+  background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
+  background-size: cover;
 }
 
 .item-title {
@@ -45,11 +47,22 @@ body {
 }
 h1 {
   font-size: 3rem;
-  color: white;
+  background-image: linear-gradient(
+    to top,
+    #f3e7e9 0%,
+    #e3eeff 99%,
+    #e3eeff 100%
+  );
   text-align: center;
   background-color: #dcf0f6;
   padding: 20px;
   border-radius: 10px;
+}
+h1:hover {
+  scale: 1.1;
+  transition: all;
+
+  transition: 1s;
 }
 
 .grid-container {
@@ -137,4 +150,6 @@ h1 {
   gap: 40px;
 }
 
-
+.navbar {
+  background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
+}
