@@ -66,6 +66,7 @@ function addProductToGrid(product) {
       <p class="item-unit">Unit: ${product.unit}</p>
       <p class="item-weight">Weight: ${product.weight}</p>
       <button class="btn btn-success addToCart" data-id="${product.id}">Add to Cart</button>
+      <button class="btn btn-danger deleteProduct" data-id="${product.id}">Delete</button>
     </div>
   `;
   $("#productGrid").append(gridItem);
@@ -353,9 +354,44 @@ app.controller("ProductController", function ($http) {
       .catch((error) => console.error("Error adding product:", error));
   };
 
+  // Delete a product by ID
+  vm.deleteProduct = function (productId) {
+    if (confirm("Are you sure you want to delete this product?")) {
+      $http
+        .delete(`http://localhost:3000/api/products/${productId}`)
+        .then(() => {
+          alert("Product deleted successfully!");
+          // Remove product from the local array for real-time UI update
+          vm.products = vm.products.filter(
+            (product) => product._id !== productId
+          );
+        })
+        .catch((error) => console.error("Error deleting product:", error));
+    }
+  };
+
   // Initialize by loading products and cart
   vm.getProducts();
   vm.getCart();
 });
 
+// Event listener for delete button
+$(document).on("click", ".deleteProduct", function () {
+  const productId = $(this).data("id").toString();
 
+  if (confirm("Are you sure you want to delete this product?")) {
+    $.ajax({
+      url: `http://localhost:3000/api/products/${productId}`,
+      type: "DELETE",
+      success: function (response) {
+        alert("Product deleted successfully!");
+        // Remove the product from the grid
+        $(`.grid-item:has(button[data-id='${productId}'])`).remove();
+      },
+      error: function (error) {
+        console.error("Error deleting product:", error);
+        alert("Failed to delete the product.");
+      },
+    });
+  }
+});

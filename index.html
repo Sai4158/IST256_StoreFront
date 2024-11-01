@@ -73,6 +73,12 @@
               >
                 Add to Cart
               </button>
+              <button
+                class="btn btn-danger"
+                ng-click="prodCtrl.deleteProduct(product._id)"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -144,7 +150,7 @@
 
           <!-- Search Product Form under Shipping Form -->
           <hr />
-          <h2 id="search">Search Product</h2>
+          <h2>Search Product</h2>
           <form ng-submit="prodCtrl.searchProduct()">
             <div class="mb-3">
               <label for="searchName" class="form-label"
@@ -155,6 +161,7 @@
                 class="form-control"
                 id="searchName"
                 ng-model="prodCtrl.searchTerm"
+                placeholder="Enter product name"
               />
             </div>
             <button type="submit" class="btn btn-primary">

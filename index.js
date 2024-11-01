@@ -96,17 +96,6 @@ app.get("/api/products/search", async (req, res) => {
   }
 });
 
-// Delete a product by ID
-app.delete("/api/products/:id", async (req, res) => {
-  try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Product deleted" });
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    res.status(500).json({ error: "Error deleting product" });
-  }
-});
-
 // Save or update the cart
 app.post("/api/cart", async (req, res) => {
   try {
@@ -138,4 +127,16 @@ app.get("/api/cart", async (req, res) => {
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
+
+app.delete("/api/products/:id", async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    // Assuming you are using MongoDB and Mongoose
+    await Product.findByIdAndDelete(productId);
+    res.status(200).send({ message: "Product deleted successfully!" });
+  } catch (error) {
+    res.status(500).send({ error: "Error deleting product." });
+  }
 });
