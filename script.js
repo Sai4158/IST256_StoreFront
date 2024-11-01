@@ -134,14 +134,20 @@ $(document).on("click", ".removeItem", function () {
 $("#productForm").on("submit", function (event) {
   event.preventDefault();
 
-  const productId = $("#itemId").val().trim();
-  const itemName = $("#itemName").val().trim();
-  const itemDescription = $("#itemDescription").val().trim();
-  const itemCategory = $("#itemCategory").val().trim();
-  const itemUnit = $("#itemUnit").val().trim();
-  const itemPrice = $("#itemPrice").val();
-  const itemWeight = $("#itemWeight").val();
-  const itemImage = $("#itemImage").val();
+  const productId = $("#itemId").val() ? $("#itemId").val().trim() : "";
+  const itemName = $("#itemName").val() ? $("#itemName").val().trim() : "";
+  const itemDescription = $("#itemDescription").val()
+    ? $("#itemDescription").val().trim()
+    : "";
+  const itemCategory = $("#itemCategory").val()
+    ? $("#itemCategory").val().trim()
+    : "";
+  const itemUnit = $("#itemUnit").val() ? $("#itemUnit").val().trim() : "";
+  const itemPrice = $("#itemPrice").val() ? $("#itemPrice").val().trim() : "";
+  const itemWeight = $("#itemWeight").val()
+    ? $("#itemWeight").val().trim()
+    : "";
+  const itemImage = $("#itemImage").val() ? $("#itemImage").val().trim() : "";
 
   // Check required fields
   if (
@@ -170,7 +176,7 @@ $("#productForm").on("submit", function (event) {
 
     $("#productForm")[0].reset();
   } else {
-    alert("Please fill out all required fields before submitting.");
+    alert("Added to DB");
   }
 });
 
@@ -252,3 +258,104 @@ function displayShippingDetails(details) {
   `;
   $("#productDetails").append(shippingDetails);
 }
+
+// script.js
+const app = angular.module("storeApp", []);
+
+app.controller("ProductController", function ($http) {
+  const vm = this;
+  vm.products = [];
+  vm.cart = [];
+  vm.newProduct = {};
+
+  // Fetch products from the server
+  vm.getProducts = function () {
+    $http
+      .get("http://localhost:3000/api/products")
+      .then((response) => {
+        vm.products = response.data;
+      })
+      .catch((error) => console.error("Error fetching products:", error));
+  };
+
+  // Fetch cart from the server
+  vm.getCart = function () {
+    $http
+      .get("http://localhost:3000/api/cart")
+      .then((response) => {
+        vm.cart = response.data.items || [];
+      })
+      .catch((error) => console.error("Error fetching cart:", error));
+  };
+
+  // Add product to cart
+  vm.addToCart = function (product) {
+    const existingItem = vm.cart.find((item) => item.productId === product._id);
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      vm.cart.push({
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      });
+    }
+    vm.saveCart();
+  };
+
+  // Save or update cart in MongoDB
+  vm.saveCart = function () {
+    $http
+      .post("http://localhost:3000/api/cart", { items: vm.cart })
+      .then(() => alert("Cart saved!"))
+      .catch((error) => console.error("Error saving cart:", error));
+  };
+
+  // Calculate total price of items in cart
+  vm.getCartTotal = function () {
+    return vm.cart.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
+
+  // Remove item from cart
+  vm.removeFromCart = function (item) {
+    // Filter out the item by its productId
+    vm.cart = vm.cart.filter(
+      (cartItem) => cartItem.productId !== item.productId
+    );
+
+    // Update the cart in the backend
+    vm.saveCart(); // Save the modified cart to the server
+  };
+
+  // Search for products by name
+  vm.searchProduct = function () {
+    $http
+      .get("http://localhost:3000/api/products/search", {
+        params: { name: vm.searchTerm },
+      })
+      .then((response) => {
+        vm.products = response.data;
+      })
+      .catch((error) => console.error("Error searching products:", error));
+  };
+
+  vm.addProduct = function () {
+    $http
+      .post("http://localhost:3000/api/products", vm.newProduct)
+      .then((response) => {
+        vm.products.push(response.data); // Add the new product to the products list
+        vm.newProduct = {}; // Clear the form fields
+      })
+      .catch((error) => console.error("Error adding product:", error));
+  };
+
+  // Initialize by loading products and cart
+  vm.getProducts();
+  vm.getCart();
+});
+
+
