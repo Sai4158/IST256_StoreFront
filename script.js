@@ -15,7 +15,7 @@ app.controller("ProductController", function ($http) {
   // Fetch shipping details from the server
   vm.getShippingDetails = function () {
     $http
-      .get("http://localhost:3000/api/shipping")
+      .get("/api/shipping")
       .then((response) => {
         vm.shippingDetails = response.data;
       })
@@ -27,7 +27,7 @@ app.controller("ProductController", function ($http) {
   // Submit shipping details to the server
   vm.submitShipping = function () {
     $http
-      .post("http://localhost:3000/api/shipping", vm.shipping)
+      .post("/api/shipping", vm.shipping)
       .then((response) => {
         alert("Shipping details submitted successfully!");
 
@@ -45,7 +45,7 @@ app.controller("ProductController", function ($http) {
   // Fetch products from the server
   vm.getProducts = function () {
     $http
-      .get("http://localhost:3000/api/products")
+      .get("/api/products")
       .then((response) => {
         vm.products = response.data;
       })
@@ -55,7 +55,7 @@ app.controller("ProductController", function ($http) {
   // Fetch cart items from the server
   vm.getCart = function () {
     $http
-      .get("http://localhost:3000/api/cart")
+      .get("/api/cart")
       .then((response) => {
         vm.cart = response.data.items || [];
       })
@@ -81,7 +81,7 @@ app.controller("ProductController", function ($http) {
   // Save or update cart in MongoDB
   vm.saveCart = function () {
     $http
-      .post("http://localhost:3000/api/cart", { items: vm.cart })
+      .post("/api/cart", { items: vm.cart })
       .then(() => alert("Cart saved!"))
       .catch((error) => console.error("Error saving cart:", error));
   };
@@ -108,7 +108,7 @@ app.controller("ProductController", function ($http) {
   // Search for products by name
   vm.searchProduct = function () {
     $http
-      .get("http://localhost:3000/api/products/search", {
+      .get("/api/products/search", {
         params: { name: vm.searchTerm },
       })
       .then((response) => {
@@ -121,7 +121,7 @@ app.controller("ProductController", function ($http) {
   // Add new product to the server
   vm.addProduct = function () {
     $http
-      .post("http://localhost:3000/api/products", vm.newProduct)
+      .post("/api/products", vm.newProduct)
       .then((response) => {
         vm.products.push(response.data); // Add to products list
         vm.newProduct = {}; // Clear form fields
@@ -133,7 +133,7 @@ app.controller("ProductController", function ($http) {
   vm.deleteProduct = function (productId) {
     if (confirm("Are you sure you want to delete this product?")) {
       $http
-        .delete(`http://localhost:3000/api/products/${productId}`)
+        .delete(`/api/products/${productId}`)
         .then(() => {
           alert("Product deleted successfully!");
           // Remove product from the local array for real time UI update
