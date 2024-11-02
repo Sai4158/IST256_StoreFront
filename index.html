@@ -44,7 +44,7 @@
               <a class="nav-link" href="#shippingForm">Shipping</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#footer">Footer</a>
+              <a class="nav-link" href="#footer">Shipping Details</a>
             </li>
           </ul>
         </div>
@@ -107,6 +107,34 @@
             Save Cart
           </button>
 
+          <!-- Search Product Form under Shipping Form -->
+          <hr />
+          <h2 id="search">Search Product</h2>
+          <form ng-submit="prodCtrl.searchProduct()">
+            <div class="mb-3">
+              <label for="searchName" class="form-label"
+                >Search Product by Name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="searchName"
+                ng-model="prodCtrl.searchTerm"
+                placeholder="Enter product name"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Search Product
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              ng-click="prodCtrl.getProducts()"
+            >
+              Go back
+            </button>
+          </form>
+
           <!-- Shipping Form under Cart -->
           <hr />
           <h2 id="shippingForm">Shipping Selection</h2>
@@ -149,39 +177,31 @@
             </button>
           </form>
 
-          <!-- Search Product Form under Shipping Form -->
-          <hr />
-          <h2>Search Product</h2>
-          <form ng-submit="prodCtrl.searchProduct()">
-            <div class="mb-3">
-              <label for="searchName" class="form-label"
-                >Search Product by Name</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="searchName"
-                ng-model="prodCtrl.searchTerm"
-                placeholder="Enter product name"
-              />
+          <!-- Display Shipping Details at the Bottom -->
+          <div class="container mt-4" ng-if="prodCtrl.shippingDetails">
+            <h2>Shipping Details</h2>
+            <div class="card">
+              <div class="card-body">
+                <p>
+                  <strong>Destination:</strong> {{
+                  prodCtrl.shippingDetails.destination }}
+                </p>
+                <p>
+                  <strong>Carrier:</strong> {{ prodCtrl.shippingDetails.carrier
+                  }}
+                </p>
+                <p>
+                  <strong>Method:</strong> {{ prodCtrl.shippingDetails.method }}
+                </p>
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Search Product
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              ng-click="prodCtrl.getProducts()"
-            >
-              Go back
-            </button>
-          </form>
+          </div>
         </div>
       </div>
 
       <!-- Add Product Section (Left Column under Product Grid) -->
-      <div class="row my-4">
-        <div class="col-md-6">
+      <div class="row my-5">
+        <div class="col-xl">
           <h2 id="add">Add Product</h2>
           <form id="productForm" ng-submit="prodCtrl.addProduct()">
             <div class="row">
@@ -230,7 +250,7 @@
                 <div class="mb-3">
                   <label class="form-label">Price</label>
                   <input
-                    type="number"
+                    type="text"
                     class="form-control"
                     ng-model="prodCtrl.newProduct.price"
                     required
@@ -263,25 +283,6 @@
               </button>
             </div>
           </form>
-        </div>
-      </div>
-
-      <!-- Display Shipping Details at the Bottom -->
-      <div class="container mt-4" ng-if="prodCtrl.shippingDetails">
-        <h2>Shipping Details</h2>
-        <div class="card">
-          <div class="card-body">
-            <p>
-              <strong>Destination:</strong> {{
-              prodCtrl.shippingDetails.destination }}
-            </p>
-            <p>
-              <strong>Carrier:</strong> {{ prodCtrl.shippingDetails.carrier }}
-            </p>
-            <p>
-              <strong>Method:</strong> {{ prodCtrl.shippingDetails.method }}
-            </p>
-          </div>
         </div>
       </div>
     </div>
