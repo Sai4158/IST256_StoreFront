@@ -6,7 +6,7 @@ body {
   padding: 0;
   min-height: 100vh;
   width: 100%;
-  background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
+  background: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
   background-size: cover;
 
   font-family: "Georama";
@@ -32,7 +32,7 @@ body {
 }
 .container {
   padding: 20px;
-  margin-top: 50px;
+  margin-top: 5px;
 }
 
 .text-center {
@@ -132,7 +132,7 @@ h1:hover {
 
 .navbar-nav .nav-link {
   color: black;
-  padding: 0 15px;
+  padding: 0 10px;
   font-size: 25px;
 }
 
@@ -151,11 +151,16 @@ h1:hover {
 }
 
 .navbar-nav {
-  gap: 40px;
+  gap: 20px;
+  text-decoration: underline;
+}
+
+.card-body {
+  background: rgb(160, 198, 234);
 }
 
 .navbar {
-  background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
+  /* background-image: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%); */
 }
 .grid-item h3,
 .grid-item p {
@@ -165,7 +170,7 @@ h1:hover {
 }
 
 .grid-item .item-price {
-  color: #00ff00;
+  color: #ffffff;
 }
 
 .delet {

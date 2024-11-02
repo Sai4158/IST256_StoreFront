@@ -1,50 +1,5 @@
 // items in the json format
-let products = [
-  // {
-  //   id: "1",
-  //   name: "Grapes",
-  //   description: "Fresh grapes",
-  //   category: "Fruits",
-  //   unit: "kg",
-  //   price: 3.0,
-  //   weight: "1kg",
-  //   image:
-  //     "//fruitstand.art/cdn/shop/products/Figs-SheerCornflower-Hero_b27a9527-d835-4959-a2e5-ba564130793c_3000x.jpg?v=1675662198",
-  // },
-  // {
-  //   id: "2",
-  //   name: "Banana",
-  //   description: "Ripe bananas",
-  //   category: "Fruits",
-  //   unit: "dozen",
-  //   price: 3.78,
-  //   weight: "1 dozen",
-  //   image:
-  //     "//fruitstand.art/cdn/shop/files/Banana-02-Hero_3000x.jpg?v=1696180358",
-  // },
-  // {
-  //   id: "3",
-  //   name: "Raspberry",
-  //   description: "Fresh raspberries",
-  //   category: "Fruits",
-  //   unit: "box",
-  //   price: 4.99,
-  //   weight: "500g",
-  //   image:
-  //     "//fruitstand.art/cdn/shop/products/Raspberry011_3000x.jpg?v=1675662195",
-  // },
-  // {
-  //   id: "4",
-  //   name: "Strawberry",
-  //   description: "Sweet strawberries",
-  //   category: "Fruits",
-  //   unit: "box",
-  //   price: 7.0,
-  //   weight: "500g",
-  //   image:
-  //     "//fruitstand.art/cdn/shop/products/Strawberry-01-Hero_3000x.jpg?v=1675662211",
-  // },
-];
+let products = [];
 
 // Empty cart
 let cart = [];
