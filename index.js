@@ -1,3 +1,4 @@
+// Import dependencies
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -6,7 +7,7 @@ const cors = require("cors");
 const app = express();
 const PORT = 3000;
 
-// Set up CORS
+// Set up CORS configuration
 app.use(
   cors({
     origin: ["http://127.0.0.1:5500", "http://localhost:5500"],
@@ -15,6 +16,7 @@ app.use(
   })
 );
 
+// Set up body parser
 app.use(bodyParser.json());
 
 // Connect to MongoDB
@@ -29,7 +31,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("MongoDB connection error:", error));
 
-// Define schemas and models
+// Define product schema and model
 const productSchema = new mongoose.Schema({
   name: String,
   description: String,
@@ -42,6 +44,7 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("Product", productSchema);
 
+// Define cart schema and model
 const cartSchema = new mongoose.Schema({
   items: [
     {
@@ -54,6 +57,7 @@ const cartSchema = new mongoose.Schema({
 });
 const Cart = mongoose.model("Cart", cartSchema);
 
+// Define shipping schema and model
 const shippingSchema = new mongoose.Schema({
   destination: String,
   carrier: String,
@@ -61,9 +65,7 @@ const shippingSchema = new mongoose.Schema({
 });
 const Shipping = mongoose.model("Shipping", shippingSchema);
 
-// API Routes
-
-// Add a new product
+// Route to add a new product
 app.post("/api/products", async (req, res) => {
   try {
     const product = new Product(req.body);
@@ -75,10 +77,11 @@ app.post("/api/products", async (req, res) => {
   }
 });
 
+// Route to search products by name
 app.get("/api/products/search", async (req, res) => {
   try {
     const searchTerm = req.query.name || "";
-    const regex = new RegExp(searchTerm, "i"); // Case-insensitive regex
+    const regex = new RegExp(searchTerm, "i");
     const products = await Product.find({ name: regex });
     res.json(products);
   } catch (error) {
@@ -87,18 +90,18 @@ app.get("/api/products/search", async (req, res) => {
   }
 });
 
-// Get the latest shipping details
+// Route to get the latest shipping details
 app.get("/api/shipping", async (req, res) => {
   try {
-    const shippingDetails = await Shipping.findOne().sort({ _id: -1 }); // Fetch the latest entry
-    res.status(200).json(shippingDetails || {}); // Send empty object if no data
+    const shippingDetails = await Shipping.findOne().sort({ _id: -1 });
+    res.status(200).json(shippingDetails || {});
   } catch (error) {
     console.error("Error fetching shipping details:", error);
     res.status(500).json({ error: "Error fetching shipping details" });
   }
 });
 
-// Get all products
+// Route to get all products
 app.get("/api/products", async (req, res) => {
   try {
     const products = await Product.find();
@@ -109,7 +112,7 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// Save or update cart
+// Route to save or update the cart
 app.post("/api/cart", async (req, res) => {
   try {
     let cart = await Cart.findOne();
@@ -124,7 +127,7 @@ app.post("/api/cart", async (req, res) => {
   }
 });
 
-// Retrieve cart items
+// Route to retrieve cart items
 app.get("/api/cart", async (req, res) => {
   try {
     const cart = await Cart.findOne();
@@ -135,7 +138,7 @@ app.get("/api/cart", async (req, res) => {
   }
 });
 
-// Submit shipping details
+// Route to submit shipping details
 app.post("/api/shipping", async (req, res) => {
   try {
     const shipping = new Shipping(req.body);
@@ -147,7 +150,7 @@ app.post("/api/shipping", async (req, res) => {
   }
 });
 
-// Delete a product by ID
+// Route to delete a product by ID
 app.delete("/api/products/:id", async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
