@@ -1,9 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Georama:ital,wght@0,100..900;1,100..900&display=swap");
+
 html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
+  background: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
+  background-size: cover;
+
+  font-family: "Georama";
 }
 
 .item-title {
@@ -26,7 +32,7 @@ body {
 }
 .container {
   padding: 20px;
-  margin-top: 50px;
+  margin-top: 5px;
 }
 
 .text-center {
@@ -45,18 +51,29 @@ body {
 }
 h1 {
   font-size: 3rem;
-  color: white;
+  background-image: linear-gradient(
+    to top,
+    #f3e7e9 0%,
+    #e3eeff 99%,
+    #e3eeff 100%
+  );
   text-align: center;
-  background-color: #444;
+  background-color: #dcf0f6;
   padding: 20px;
   border-radius: 10px;
+}
+h1:hover {
+  scale: 1.1;
+  transition: all;
+
+  transition: 1s;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  gap: 10px;
+  padding: 10px;
 }
 
 .grid-item {
@@ -111,4 +128,51 @@ h1 {
 
 .footer a:hover {
   text-decoration: underline;
+}
+
+.navbar-nav .nav-link {
+  color: black;
+  padding: 0 10px;
+  font-size: 25px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: black;
+}
+
+.navbar-light .navbar-toggler {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.navbar-nav :hover {
+  scale: 1.05;
+  transition: all;
+}
+
+.navbar-nav {
+  gap: 20px;
+  text-decoration: underline;
+}
+
+.card-body {
+  background: rgb(160, 198, 234);
+}
+
+.navbar {
+  /* background-image: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%); */
+}
+.grid-item h3,
+.grid-item p {
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.grid-item .item-price {
+  color: #ffffff;
+}
+
+.delet {
+  margin: 10px;
 }

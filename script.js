@@ -1,230 +1,152 @@
-// items in the json format
-let products = [
-  {
-    id: "1",
-    name: "Grapes",
-    description: "Fresh grapes",
-    category: "Fruits",
-    unit: "kg",
-    price: 3.0,
-    weight: "1kg",
-    image:
-      "//fruitstand.art/cdn/shop/products/Figs-SheerCornflower-Hero_b27a9527-d835-4959-a2e5-ba564130793c_3000x.jpg?v=1675662198",
-  },
-  {
-    id: "2",
-    name: "Banana",
-    description: "Ripe bananas",
-    category: "Fruits",
-    unit: "dozen",
-    price: 3.78,
-    weight: "1 dozen",
-    image:
-      "//fruitstand.art/cdn/shop/files/Banana-02-Hero_3000x.jpg?v=1696180358",
-  },
-  {
-    id: "3",
-    name: "Raspberry",
-    description: "Fresh raspberries",
-    category: "Fruits",
-    unit: "box",
-    price: 4.99,
-    weight: "500g",
-    image:
-      "//fruitstand.art/cdn/shop/products/Raspberry011_3000x.jpg?v=1675662195",
-  },
-  {
-    id: "4",
-    name: "Strawberry",
-    description: "Sweet strawberries",
-    category: "Fruits",
-    unit: "box",
-    price: 7.0,
-    weight: "500g",
-    image:
-      "//fruitstand.art/cdn/shop/products/Strawberry-01-Hero_3000x.jpg?v=1675662211",
-  },
-];
+// Array for products
+let products = [];
 
-// Show current items
-products.forEach((product) => {
-  addProductToGrid(product);
-});
+// AngularJS app
+const app = angular.module("storeApp", []);
 
-// Empty cart
-let cart = [];
+app.controller("ProductController", function ($http) {
+  const vm = this;
+  vm.products = [];
+  vm.cart = [];
+  vm.newProduct = {};
+  vm.shipping = {};
+  vm.shippingDetails = null;
 
-// Add product to the grid
-function addProductToGrid(product) {
-  const gridItem = `
-    <div class="grid-item">
-      <img src="${product.image}" alt="${product.name}" class="item-image" />
-      <h3 class="item-title">${product.name}</h3>
-      <p class="item-price">$${product.price}</p>
-      <p class="item-description">${product.description}</p>
-      <p class="item-category">Category: ${product.category}</p>
-      <p class="item-unit">Unit: ${product.unit}</p>
-      <p class="item-weight">Weight: ${product.weight}</p>
-      <button class="btn btn-success addToCart" data-id="${product.id}">Add to Cart</button>
-    </div>
-  `;
-  $("#productGrid").append(gridItem);
-}
+  // Fetch shipping details from the server
+  vm.getShippingDetails = function () {
+    $http
+      .get("/api/shipping")
+      .then((response) => {
+        vm.shippingDetails = response.data;
+      })
+      .catch((error) =>
+        console.error("Error fetching shipping details:", error)
+      );
+  };
 
-// Add to Cart functionality
-$(document).on("click", ".addToCart", function () {
-  const productId = $(this).data("id").toString();
-  const product = products.find((p) => p.id === productId);
+  // Submit shipping details to the server
+  vm.submitShipping = function () {
+    $http
+      .post("/api/shipping", vm.shipping)
+      .then((response) => {
+        alert("Shipping details submitted successfully!");
 
-  if (product) {
-    const cartItem = cart.find((item) => item.id === productId);
+        // Clear form fields after submission
+        vm.shipping = {};
 
-    if (cartItem) {
-      cartItem.quantity++;
+        // Refresh shipping data
+        vm.getShippingDetails();
+      })
+      .catch((error) =>
+        console.error("Error submitting shipping details:", error)
+      );
+  };
+
+  // Fetch products from the server
+  vm.getProducts = function () {
+    $http
+      .get("/api/products")
+      .then((response) => {
+        vm.products = response.data;
+      })
+      .catch((error) => console.error("Error fetching products:", error));
+  };
+
+  // Fetch cart items from the server
+  vm.getCart = function () {
+    $http
+      .get("/api/cart")
+      .then((response) => {
+        vm.cart = response.data.items || [];
+      })
+      .catch((error) => console.error("Error fetching cart:", error));
+  };
+
+  // Add product to cart
+  vm.addToCart = function (product) {
+    const existingItem = vm.cart.find((item) => item.productId === product._id);
+    if (existingItem) {
+      existingItem.quantity++;
     } else {
-      cart.push({ ...product, quantity: 1 });
+      vm.cart.push({
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      });
     }
+    vm.saveCart();
+  };
 
-    updateCart();
-  } else {
-    alert("Product not found.");
-  }
-});
+  // Save or update cart in MongoDB
+  vm.saveCart = function () {
+    $http
+      .post("/api/cart", { items: vm.cart })
+      .then(() => alert("Cart saved!"))
+      .catch((error) => console.error("Error saving cart:", error));
+  };
 
-// Update Cart display
-function updateCart() {
-  let cartHTML = "";
-  let total = 0;
+  // Calculate total price of items in cart
+  vm.getCartTotal = function () {
+    return vm.cart.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
 
-  cart.forEach((item) => {
-    const itemTotal = item.price * item.quantity;
-    total += itemTotal;
+  // Remove item from cart
+  vm.removeFromCart = function (item) {
+    // Filter out the item by its productId
+    vm.cart = vm.cart.filter(
+      (cartItem) => cartItem.productId !== item.productId
+    );
 
-    cartHTML += `
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        ${item.name} x ${item.quantity} - $${itemTotal.toFixed(2)}
-        <button class="btn btn-danger btn-sm removeItem" data-id="${
-          item.id
-        }">Remove</button>
-      </li>
-    `;
-  });
+    // Update the cart in the backend
+    vm.saveCart();
+  };
 
-  // Display cart items
-  if (cartHTML === "") {
-    cartHTML = "<p>Your cart is empty.</p>";
-  }
-  $("#cartItems").html(cartHTML);
+  // Search for products by name
+  vm.searchProduct = function () {
+    $http
+      .get("/api/products/search", {
+        params: { name: vm.searchTerm },
+      })
+      .then((response) => {
+        vm.products = response.data;
+        vm.searchTerm = "";
+      })
+      .catch((error) => console.error("Error searching products:", error));
+  };
 
-  // Update total price
-  $("#cartTotal").text(`Total: $${total.toFixed(2)}`);
-}
+  // Add new product to the server
+  vm.addProduct = function () {
+    $http
+      .post("/api/products", vm.newProduct)
+      .then((response) => {
+        vm.products.push(response.data); // Add to products list
+        vm.newProduct = {}; // Clear form fields
+      })
+      .catch((error) => console.error("Error adding product:", error));
+  };
 
-// Remove item from Cart
-$(document).on("click", ".removeItem", function () {
-  const productId = $(this).data("id").toString();
-
-  // Remove the item from the cart based on the id
-  cart = cart.filter((item) => item.id !== productId);
-
-  updateCart();
-});
-
-// Form submission for adding new products
-$("#productForm").on("submit", function (event) {
-  event.preventDefault();
-
-  const productId = $("#itemId").val().trim();
-  const itemName = $("#itemName").val().trim();
-  const itemDescription = $("#itemDescription").val().trim();
-  const itemCategory = $("#itemCategory").val().trim();
-  const itemUnit = $("#itemUnit").val().trim();
-  const itemPrice = $("#itemPrice").val();
-  const itemWeight = $("#itemWeight").val();
-  const itemImage = $("#itemImage").val();
-
-  // Check required fields
-  if (
-    productId &&
-    itemName &&
-    itemDescription &&
-    itemCategory &&
-    itemUnit &&
-    itemPrice &&
-    itemImage
-  ) {
-    const product = {
-      id: productId,
-      name: itemName,
-      description: itemDescription,
-      category: itemCategory,
-      unit: itemUnit,
-      price: itemPrice,
-      weight: itemWeight || "N/A",
-      image: itemImage,
-    };
-
-    products.push(product);
-    addProductToGrid(product);
-    displayProductDetails(product);
-
-    $("#productForm")[0].reset();
-  } else {
-    alert("Please fill out all required fields before submitting.");
-  }
-});
-
-// Display added product details as JSON
-function displayProductDetails(product) {
-  const productDetails = `
-    <pre>${JSON.stringify(product, null, 2)}</pre>
-  `;
-  $("#productDetails").append(productDetails);
-}
-
-$("#searchForm").on("submit", function (event) {
-  event.preventDefault();
-
-  const searchValue = $("#searchName").val().trim().toLowerCase();
-
-  if (searchValue) {
-    const found = searchProduct(searchValue);
-    if (found) {
-      alert("Product not found.");
+  // Delete a product by ID
+  vm.deleteProduct = function (productId) {
+    if (confirm("Are you sure you want to delete this product?")) {
+      $http
+        .delete(`/api/products/${productId}`)
+        .then(() => {
+          alert("Product deleted successfully!");
+          // Remove product from the local array for real time UI update
+          vm.products = vm.products.filter(
+            (product) => product._id !== productId
+          );
+        })
+        .catch((error) => console.error("Error deleting product:", error));
     }
-  }
-});
+  };
 
-// Function to search for a product by name
-function searchProduct(searchValue) {
-  if (!searchValue) {
-    // If the search term is empty, show all products and return
-    $(".grid-item").show();
-    return;
-  }
-
-  let found = false;
-
-  $(".grid-item").each(function () {
-    const productName = $(this).find(".item-title").text().toLowerCase();
-    if (productName.indexOf(searchValue.toLowerCase()) > -1) {
-      $(this).show();
-      found = true;
-    } else {
-      $(this).hide();
-    }
-  });
-
-  // If no products were found, show all products and alert it
-  if (!found) {
-    $(".grid-item").show();
-    alert("NOT FOUND!");
-  }
-}
-
-// Handle "Go back" button to reset the search and show all products
-$("#goBack").on("click", function (e) {
-  e.preventDefault();
-  $(".grid-item").show();
-  $("#searchName").val("");
+  // Initialize by loading products and cart
+  vm.getProducts();
+  vm.getCart();
+  vm.getShippingDetails();
 });
