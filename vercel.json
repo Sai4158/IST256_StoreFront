@@ -5,12 +5,6 @@
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "styles.css", "use": "@vercel/static" }
   ],
-  "headers": [
-    {
-      "source": "/styles.css",
-      "headers": [{ "key": "Content-Type", "value": "text/css" }]
-    }
-  ],
   "routes": [
     { "src": "/api/(.*)", "dest": "api/index.js" },
     { "src": "/styles.css", "dest": "/styles.css" },
