@@ -16,5 +16,6 @@
     "mongoose": "^8.8.0"
   },
   "keywords": [],
+  "devDependencies": {},
   "description": ""
 }
