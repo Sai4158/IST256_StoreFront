@@ -75,6 +75,7 @@
               </button>
               <button
                 class="btn btn-danger"
+                id="delet"
                 ng-click="prodCtrl.deleteProduct(product._id)"
               >
                 Delete
@@ -262,6 +263,25 @@
               </button>
             </div>
           </form>
+        </div>
+      </div>
+
+      <!-- Display Shipping Details at the Bottom -->
+      <div class="container mt-4" ng-if="prodCtrl.shippingDetails">
+        <h2>Shipping Details</h2>
+        <div class="card">
+          <div class="card-body">
+            <p>
+              <strong>Destination:</strong> {{
+              prodCtrl.shippingDetails.destination }}
+            </p>
+            <p>
+              <strong>Carrier:</strong> {{ prodCtrl.shippingDetails.carrier }}
+            </p>
+            <p>
+              <strong>Method:</strong> {{ prodCtrl.shippingDetails.method }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

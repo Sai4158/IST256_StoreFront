@@ -1,4 +1,3 @@
-// Import required modules
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -7,16 +6,15 @@ const cors = require("cors");
 const app = express();
 const PORT = 3000;
 
-// Set up CORS to allow requests from specific origins
+// Set up CORS
 app.use(
   cors({
-    origin: ["http://127.0.0.1:5500", "http://localhost:5500"], // Allow specific local addresses
+    origin: ["http://127.0.0.1:5500", "http://localhost:5500"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Middleware to parse JSON requests
 app.use(bodyParser.json());
 
 // Connect to MongoDB
@@ -31,7 +29,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("MongoDB connection error:", error));
 
-// Define Product schema and model
+// Define schemas and models
 const productSchema = new mongoose.Schema({
   name: String,
   description: String,
@@ -44,7 +42,6 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("Product", productSchema);
 
-// Define Cart schema and model
 const cartSchema = new mongoose.Schema({
   items: [
     {
@@ -57,18 +54,47 @@ const cartSchema = new mongoose.Schema({
 });
 const Cart = mongoose.model("Cart", cartSchema);
 
+const shippingSchema = new mongoose.Schema({
+  destination: String,
+  carrier: String,
+  method: String,
+});
+const Shipping = mongoose.model("Shipping", shippingSchema);
+
 // API Routes
 
 // Add a new product
 app.post("/api/products", async (req, res) => {
   try {
-    console.log("Received product data:", req.body);
     const product = new Product(req.body);
     await product.save();
     res.status(201).json(product);
   } catch (error) {
     console.error("Error saving product:", error);
     res.status(500).json({ error: "Error saving product" });
+  }
+});
+
+app.get("/api/products/search", async (req, res) => {
+  try {
+    const searchTerm = req.query.name || "";
+    const regex = new RegExp(searchTerm, "i"); // Case-insensitive regex
+    const products = await Product.find({ name: regex });
+    res.json(products);
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).json({ error: "Error searching products" });
+  }
+});
+
+// Get the latest shipping details
+app.get("/api/shipping", async (req, res) => {
+  try {
+    const shippingDetails = await Shipping.findOne().sort({ _id: -1 }); // Fetch the latest entry
+    res.status(200).json(shippingDetails || {}); // Send empty object if no data
+  } catch (error) {
+    console.error("Error fetching shipping details:", error);
+    res.status(500).json({ error: "Error fetching shipping details" });
   }
 });
 
@@ -83,28 +109,13 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// Search for products by name
-app.get("/api/products/search", async (req, res) => {
-  try {
-    const searchTerm = req.query.name || "";
-    const regex = new RegExp(searchTerm, "i"); // Case-insensitive search
-    const products = await Product.find({ name: regex });
-    res.json(products);
-  } catch (error) {
-    console.error("Error searching products:", error);
-    res.status(500).json({ error: "Error searching products" });
-  }
-});
-
-// Save or update the cart
+// Save or update cart
 app.post("/api/cart", async (req, res) => {
   try {
     let cart = await Cart.findOne();
-    if (!cart) {
-      cart = new Cart({ items: req.body.items });
-    } else {
-      cart.items = req.body.items; // Update the cart items
-    }
+    cart
+      ? (cart.items = req.body.items)
+      : (cart = new Cart({ items: req.body.items }));
     await cart.save();
     res.status(201).json(cart);
   } catch (error) {
@@ -113,30 +124,40 @@ app.post("/api/cart", async (req, res) => {
   }
 });
 
-// Retrieve the cart items
+// Retrieve cart items
 app.get("/api/cart", async (req, res) => {
   try {
     const cart = await Cart.findOne();
-    res.status(200).json(cart ? cart : { items: [] });
+    res.status(200).json(cart || { items: [] });
   } catch (error) {
     console.error("Error fetching cart:", error);
     res.status(500).json({ error: "Error fetching cart" });
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// Submit shipping details
+app.post("/api/shipping", async (req, res) => {
+  try {
+    const shipping = new Shipping(req.body);
+    await shipping.save();
+    res.status(201).json(shipping);
+  } catch (error) {
+    console.error("Error saving shipping details:", error);
+    res.status(500).json({ error: "Error saving shipping details" });
+  }
 });
 
+// Delete a product by ID
 app.delete("/api/products/:id", async (req, res) => {
-  const productId = req.params.id;
-
   try {
-    // Assuming you are using MongoDB and Mongoose
-    await Product.findByIdAndDelete(productId);
+    await Product.findByIdAndDelete(req.params.id);
     res.status(200).send({ message: "Product deleted successfully!" });
   } catch (error) {
     res.status(500).send({ error: "Error deleting product." });
   }
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

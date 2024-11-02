@@ -1,55 +1,50 @@
 // items in the json format
 let products = [
-  {
-    id: "1",
-    name: "Grapes",
-    description: "Fresh grapes",
-    category: "Fruits",
-    unit: "kg",
-    price: 3.0,
-    weight: "1kg",
-    image:
-      "//fruitstand.art/cdn/shop/products/Figs-SheerCornflower-Hero_b27a9527-d835-4959-a2e5-ba564130793c_3000x.jpg?v=1675662198",
-  },
-  {
-    id: "2",
-    name: "Banana",
-    description: "Ripe bananas",
-    category: "Fruits",
-    unit: "dozen",
-    price: 3.78,
-    weight: "1 dozen",
-    image:
-      "//fruitstand.art/cdn/shop/files/Banana-02-Hero_3000x.jpg?v=1696180358",
-  },
-  {
-    id: "3",
-    name: "Raspberry",
-    description: "Fresh raspberries",
-    category: "Fruits",
-    unit: "box",
-    price: 4.99,
-    weight: "500g",
-    image:
-      "//fruitstand.art/cdn/shop/products/Raspberry011_3000x.jpg?v=1675662195",
-  },
-  {
-    id: "4",
-    name: "Strawberry",
-    description: "Sweet strawberries",
-    category: "Fruits",
-    unit: "box",
-    price: 7.0,
-    weight: "500g",
-    image:
-      "//fruitstand.art/cdn/shop/products/Strawberry-01-Hero_3000x.jpg?v=1675662211",
-  },
+  // {
+  //   id: "1",
+  //   name: "Grapes",
+  //   description: "Fresh grapes",
+  //   category: "Fruits",
+  //   unit: "kg",
+  //   price: 3.0,
+  //   weight: "1kg",
+  //   image:
+  //     "//fruitstand.art/cdn/shop/products/Figs-SheerCornflower-Hero_b27a9527-d835-4959-a2e5-ba564130793c_3000x.jpg?v=1675662198",
+  // },
+  // {
+  //   id: "2",
+  //   name: "Banana",
+  //   description: "Ripe bananas",
+  //   category: "Fruits",
+  //   unit: "dozen",
+  //   price: 3.78,
+  //   weight: "1 dozen",
+  //   image:
+  //     "//fruitstand.art/cdn/shop/files/Banana-02-Hero_3000x.jpg?v=1696180358",
+  // },
+  // {
+  //   id: "3",
+  //   name: "Raspberry",
+  //   description: "Fresh raspberries",
+  //   category: "Fruits",
+  //   unit: "box",
+  //   price: 4.99,
+  //   weight: "500g",
+  //   image:
+  //     "//fruitstand.art/cdn/shop/products/Raspberry011_3000x.jpg?v=1675662195",
+  // },
+  // {
+  //   id: "4",
+  //   name: "Strawberry",
+  //   description: "Sweet strawberries",
+  //   category: "Fruits",
+  //   unit: "box",
+  //   price: 7.0,
+  //   weight: "500g",
+  //   image:
+  //     "//fruitstand.art/cdn/shop/products/Strawberry-01-Hero_3000x.jpg?v=1675662211",
+  // },
 ];
-
-// Show current items
-products.forEach((product) => {
-  addProductToGrid(product);
-});
 
 // Empty cart
 let cart = [];
@@ -252,14 +247,6 @@ $("#shippingForm").on("submit", function (event) {
   sendShippingDetails({ destination, carrier, method });
 });
 
-//  Displaying Shipping Details as JSON -  not in use need restful API service
-function displayShippingDetails(details) {
-  const shippingDetails = `
-    <pre>${JSON.stringify(details, null, 2)}</pre>
-  `;
-  $("#productDetails").append(shippingDetails);
-}
-
 // script.js
 const app = angular.module("storeApp", []);
 
@@ -268,6 +255,34 @@ app.controller("ProductController", function ($http) {
   vm.products = [];
   vm.cart = [];
   vm.newProduct = {};
+  vm.shipping = {};
+  vm.shippingDetails = null;
+
+  // Fetch shipping details from the server
+  vm.getShippingDetails = function () {
+    $http
+      .get("http://localhost:3000/api/shipping")
+      .then((response) => {
+        vm.shippingDetails = response.data;
+      })
+      .catch((error) =>
+        console.error("Error fetching shipping details:", error)
+      );
+  };
+
+  // Submit shipping details to the server
+  vm.submitShipping = function () {
+    $http
+      .post("http://localhost:3000/api/shipping", vm.shipping)
+      .then((response) => {
+        alert("Shipping details submitted successfully!");
+        vm.shipping = {}; // Clear the form fields after submission
+        vm.getShippingDetails(); // Fetch the latest shipping data
+      })
+      .catch((error) =>
+        console.error("Error submitting shipping details:", error)
+      );
+  };
 
   // Fetch products from the server
   vm.getProducts = function () {
@@ -373,6 +388,7 @@ app.controller("ProductController", function ($http) {
   // Initialize by loading products and cart
   vm.getProducts();
   vm.getCart();
+  vm.getShippingDetails();
 });
 
 // Event listener for delete button
