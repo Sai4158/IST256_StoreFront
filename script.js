@@ -113,6 +113,7 @@ app.controller("ProductController", function ($http) {
       })
       .then((response) => {
         vm.products = response.data;
+        vm.searchTerm = "";
       })
       .catch((error) => console.error("Error searching products:", error));
   };
