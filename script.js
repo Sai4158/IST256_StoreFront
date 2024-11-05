@@ -99,10 +99,9 @@ app.controller("ProductController", function ($http) {
 
   // Calculate total price of items in cart
   vm.getCartTotal = function () {
-    return vm.cart.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+    return vm.cart
+      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .toFixed(2);
   };
 
   // Remove item from cart
@@ -161,6 +160,7 @@ app.controller("ProductController", function ($http) {
           "Return request submitted successfully. Your return is now processing."
         );
         vm.returnDetails = {};
+        vm.getLatestReturnDetails();
       })
       .catch((error) => {
         console.error("Error submitting return request:", error);

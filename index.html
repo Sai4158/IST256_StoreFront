@@ -106,7 +106,7 @@
               </button>
               <button
                 class="btn btn-danger mt-2"
-                id="delet"
+                id="delete"
                 ng-click="prodCtrl.deleteProduct(product._id)"
               >
                 Delete Product
@@ -247,91 +247,105 @@
       </div>
       <hr />
       <!-- Add Product Section (Left Column under Product Grid) -->
-      <div class="row my-5">
+      <div class="row my-5" id="add-product-section">
         <div class="col-xl">
           <h2>Add Product</h2>
           <form id="productForm" ng-submit="prodCtrl.addProduct()">
-            <div class="row">
-              <!-- Left Column -->
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">Product Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ng-model="prodCtrl.newProduct.name"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Product Description</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ng-model="prodCtrl.newProduct.description"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Product Category</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ng-model="prodCtrl.newProduct.category"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Unit</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ng-model="prodCtrl.newProduct.unit"
-                    required
-                  />
-                </div>
+            <div class="row align-items-center">
+              <!-- Left Column (Image) -->
+              <div class="col-md-4 text-center">
+                <img
+                  src="https://media.istockphoto.com/id/1465845967/vector/add-color-flat-line-icon-design-with-editable-stroke-suitable-for-web-page-mobile-app-ui-ux.jpg?s=612x612&w=0&k=20&c=ODByg6m-yGEyDLaTTTA6jE6ZUK-5Gq3fNRWWaxBaKx8="
+                  alt="Add Product"
+                  class="img-fluid rounded"
+                  style="max-width: 100%; height: auto"
+                />
               </div>
 
-              <!-- Right Column -->
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">Price</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ng-model="prodCtrl.newProduct.price"
-                    required
-                  />
+              <!-- Right Column (Form Fields) -->
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Product Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        ng-model="prodCtrl.newProduct.name"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Product Description</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        ng-model="prodCtrl.newProduct.description"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Product Category</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        ng-model="prodCtrl.newProduct.category"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Unit</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        ng-model="prodCtrl.newProduct.unit"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Price</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        ng-model="prodCtrl.newProduct.price"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Weight</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        ng-model="prodCtrl.newProduct.weight"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Image URL</label>
+                      <input
+                        type="url"
+                        class="form-control"
+                        ng-model="prodCtrl.newProduct.image"
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Weight</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ng-model="prodCtrl.newProduct.weight"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Image URL</label>
-                  <input
-                    type="url"
-                    class="form-control"
-                    ng-model="prodCtrl.newProduct.image"
-                    required
-                  />
+
+                <!-- Submit Button spanning both columns -->
+                <div class="mt-3 text-center">
+                  <button type="submit" class="btn btn-primary" id="returns">
+                    Submit Product
+                  </button>
                 </div>
               </div>
-            </div>
-
-            <!-- Submit Button spanning both columns -->
-            <div class="mt-3">
-              <button type="submit" class="btn btn-primary" id="returns">
-                Submit Product
-              </button>
             </div>
           </form>
         </div>
       </div>
+
       <hr />
       <!-- Handle Returns Section -->
       <div class="container mt-5" id="returns">
