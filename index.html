@@ -334,7 +334,7 @@
       </div>
       <hr />
       <!-- Handle Returns Section -->
-      <div class="container mt-5">
+      <div class="container mt-5" id="returns">
         <h2>Worry-Free Returns</h2>
         <form ng-submit="prodCtrl.submitReturn()">
           <div class="row align-items-center">
@@ -409,6 +409,31 @@
             </button>
           </div>
         </form>
+      </div>
+      <!-- Return Details at the Bottom -->
+      <div class="container mt-1" ng-if="prodCtrl.latestReturnDetails">
+        <h2>Return Details</h2>
+        <h4>(Recent information from DB)</h4>
+        <div class="card">
+          <div class="card-body">
+            <p>
+              <strong>Order ID:</strong> {{ prodCtrl.latestReturnDetails.orderId
+              }}
+            </p>
+            <p>
+              <strong>Product ID:</strong> {{
+              prodCtrl.latestReturnDetails.productId }}
+            </p>
+            <p>
+              <strong>Reason for Return:</strong> {{
+              prodCtrl.latestReturnDetails.reason }}
+            </p>
+            <p>
+              <strong>Comments:</strong> {{
+              prodCtrl.latestReturnDetails.comments }}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <hr />

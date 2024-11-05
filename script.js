@@ -23,6 +23,8 @@ app.controller("ProductController", function ($http) {
   vm.shipping = {};
   vm.shippingDetails = null;
   vm.searchPerformed = false;
+  vm.returnDetails = {};
+  vm.returnRequests = [];
 
   // Update each $http request to use the `baseURL`
   vm.getShippingDetails = function () {
@@ -151,8 +153,38 @@ app.controller("ProductController", function ($http) {
     }
   };
 
+  vm.submitReturn = function () {
+    $http
+      .post(`${baseURL}/api/returns`, vm.returnDetails)
+      .then(() => {
+        alert(
+          "Return request submitted successfully. Your return is now processing."
+        );
+        vm.returnDetails = {};
+      })
+      .catch((error) => {
+        console.error("Error submitting return request:", error);
+        alert(
+          "There was an error submitting your return request. Please try again later."
+        );
+      });
+  };
+
+  // Fetch the latest return details
+  vm.getLatestReturnDetails = function () {
+    $http
+      .get(`${baseURL}/api/returns`)
+      .then((response) => {
+        vm.latestReturnDetails = response.data[0] || null;
+      })
+      .catch((error) => {
+        console.error("Error fetching return details:", error);
+      });
+  };
+
   // Initialize by loading products and cart
   vm.getProducts();
   vm.getCart();
   vm.getShippingDetails();
+  vm.getLatestReturnDetails();
 });

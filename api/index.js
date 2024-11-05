@@ -67,6 +67,38 @@ const shippingSchema = new mongoose.Schema({
 });
 const Shipping = mongoose.model("Shipping", shippingSchema);
 
+// return schema and model
+const returnSchema = new mongoose.Schema({
+  orderId: String,
+  productId: String,
+  reason: String,
+  comments: String,
+});
+const Return = mongoose.model("Return", returnSchema);
+
+// Route to handle product returns
+app.post("/api/returns", async (req, res) => {
+  try {
+    const returnRequest = new Return(req.body);
+    await returnRequest.save();
+    res.status(201).json(returnRequest);
+  } catch (error) {
+    console.error("Error submitting return request:", error);
+    res.status(500).json({ error: "Error submitting return request" });
+  }
+});
+// Route to retrieve return requests
+app.get("/api/returns", async (req, res) => {
+  try {
+    // Sort by latest
+    const returnRequests = await Return.find().sort({ _id: -1 });
+    res.status(200).json(returnRequests);
+  } catch (error) {
+    console.error("Error fetching return requests:", error);
+    res.status(500).json({ error: "Error fetching return requests" });
+  }
+});
+
 // Route to add a new product
 app.post("/api/products", async (req, res) => {
   try {
