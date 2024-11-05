@@ -51,7 +51,7 @@
               <hr />
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#shippingForm">Shipping & Billing</a>
+              <a class="nav-link" href="#ship">Shipping & Billing</a>
               <hr />
             </li>
             <li class="nav-item">
@@ -87,7 +87,7 @@
         <!-- Product Grid Section -->
         <div class="col-md-8">
           <h2>Products</h2>
-          <div class="grid-container">
+          <div class="grid-container" id="ship">
             <div class="grid-item" ng-repeat="product in prodCtrl.products">
               <img
                 ng-src="{{ product.image }}"
