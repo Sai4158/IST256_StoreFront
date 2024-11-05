@@ -69,8 +69,8 @@ const Shipping = mongoose.model("Shipping", shippingSchema);
 
 // return schema and model
 const returnSchema = new mongoose.Schema({
-  orderId: String,
-  productId: String,
+  ProductName: String,
+  productCategory: String,
   reason: String,
   comments: String,
 });
