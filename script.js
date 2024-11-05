@@ -22,6 +22,7 @@ app.controller("ProductController", function ($http) {
   vm.newProduct = {};
   vm.shipping = {};
   vm.shippingDetails = null;
+  vm.searchPerformed = false;
 
   // Update each $http request to use the `baseURL`
   vm.getShippingDetails = function () {
@@ -55,6 +56,7 @@ app.controller("ProductController", function ($http) {
       .get(`${baseURL}/api/products`)
       .then((response) => {
         vm.products = response.data;
+        vm.searchPerformed = false;
       })
       .catch((error) => console.error("Error fetching products:", error));
   };
@@ -118,6 +120,7 @@ app.controller("ProductController", function ($http) {
       .then((response) => {
         vm.products = response.data;
         vm.searchTerm = "";
+        vm.searchPerformed = true;
       })
       .catch((error) => console.error("Error searching products:", error));
   };

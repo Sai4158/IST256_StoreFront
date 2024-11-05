@@ -43,7 +43,7 @@
         >
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="#search">Search</a>
+              <a class="nav-link" href="#">Search</a>
               <hr />
             </li>
             <li class="nav-item">
@@ -51,17 +51,35 @@
               <hr />
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#shippingForm">Shipping</a>
+              <a class="nav-link" href="#shippingForm">Shipping & Billing</a>
               <hr />
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#footer">Shipping Details</a>
+              <a class="nav-link" href="#footer">Address</a>
               <hr />
             </li>
           </ul>
         </div>
       </div>
     </nav>
+    <!-- Search Bar at the Top -->
+    <div class="container">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search Product by Name"
+          ng-model="prodCtrl.searchTerm"
+        />
+        <button
+          type="button"
+          class="btn btn-primary"
+          ng-click="prodCtrl.searchProduct()"
+        >
+          Search
+        </button>
+      </div>
+    </div>
 
     <!-- Main Container -->
     <div class="container">
@@ -86,13 +104,19 @@
                 Add to Cart
               </button>
               <button
-                class="btn btn-danger"
+                class="btn btn-danger mt-2"
                 id="delet"
                 ng-click="prodCtrl.deleteProduct(product._id)"
               >
-                Delete
+                Delete Product
               </button>
             </div>
+          </div>
+          <!-- Go Back Button conditionally rendered -->
+          <div ng-if="prodCtrl.searchPerformed" class="text-center my-4">
+            <button class="btn btn-secondary" ng-click="prodCtrl.getProducts()">
+              Go back
+            </button>
           </div>
         </div>
 
@@ -121,37 +145,9 @@
             Save Cart
           </button>
 
-          <!-- Search Product Form under Shipping Form -->
-          <hr />
-          <h2 id="search">Search Product</h2>
-          <form ng-submit="prodCtrl.searchProduct()">
-            <div class="mb-3">
-              <label for="searchName" class="form-label"
-                >Search Product by Name</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="searchName"
-                ng-model="prodCtrl.searchTerm"
-                placeholder="Enter product name"
-              />
-            </div>
-            <button type="submit" class="btn btn-primary">
-              Search Product
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              ng-click="prodCtrl.getProducts()"
-            >
-              Go back
-            </button>
-          </form>
-
           <!-- Shipping Form under Cart -->
           <hr />
-          <h2 id="shippingForm">Shipping Selection</h2>
+          <h2 id="shippingForm">Shipping</h2>
           <form ng-submit="prodCtrl.submitShipping()">
             <div class="mb-3">
               <label class="form-label">Shipping Destination</label>
@@ -186,7 +182,7 @@
                 <option value="Overnight">Overnight</option>
               </select>
             </div>
-            <h4>Billing Information</h4>
+            <h2>Billing Information</h2>
             <div class="mb-3">
               <label class="form-label">Billing Address</label>
               <input
@@ -211,7 +207,7 @@
               </select>
             </div>
             <button type="submit" class="btn btn-primary">
-              Submit Shipping Details
+              Submit Shipping & Billing Details
             </button>
           </form>
 
@@ -350,187 +346,5 @@
 
     <!-- AngularJS and Scripts -->
     <script src="script.js"></script>
-
-    <!-- CSS -->
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Georama:ital,wght@0,100..900;1,100..900&display=swap");
-
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        width: 100%;
-        background: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
-        background-size: cover;
-
-        font-family: "Georama";
-      }
-
-      .item-title {
-        color: white;
-      }
-      .item-price {
-        color: white;
-      }
-      .item-description {
-        color: white;
-      }
-      .item-category {
-        color: white;
-      }
-      .item-unit {
-        color: white;
-      }
-      .item-weight {
-        color: white;
-      }
-      .container {
-        padding: 20px;
-        margin-top: 5px;
-      }
-
-      .text-center {
-        font-size: 2rem;
-        color: white;
-        background-color: #333;
-        margin-bottom: 20px;
-        padding: 10px;
-        border-radius: 10px;
-      }
-
-      .head5 {
-        color: white;
-        padding: 20px;
-        margin-top: 30px;
-      }
-      h1 {
-        font-size: 3rem;
-        background-image: linear-gradient(
-          to top,
-          #f3e7e9 0%,
-          #e3eeff 99%,
-          #e3eeff 100%
-        );
-        text-align: center;
-        background-color: #dcf0f6;
-        padding: 20px;
-        border-radius: 10px;
-      }
-      h1:hover {
-        scale: 1.1;
-        transition: all;
-
-        transition: 1s;
-      }
-
-      .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 10px;
-        padding: 10px;
-      }
-
-      .grid-item {
-        background-color: #272626;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: transform 0.2s;
-      }
-
-      .grid-item:hover {
-        transform: scale(1.03);
-      }
-
-      .item-image {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-      }
-
-      .item-title {
-        font-size: 1.2rem;
-        color: white;
-        margin-top: 10px;
-      }
-
-      .item-price {
-        font-size: 1rem;
-        color: #28a745;
-        font-weight: bold;
-        margin-top: 5px;
-      }
-
-      .footer {
-        text-align: center;
-        background-color: #272626;
-        color: white;
-        padding: 20px;
-        margin-top: 40px;
-        font-size: 1rem;
-      }
-
-      .list-group {
-        padding: 20px;
-      }
-
-      .footer a {
-        color: #007bff;
-        text-decoration: none;
-      }
-
-      .footer a:hover {
-        text-decoration: underline;
-      }
-
-      .navbar-nav .nav-link {
-        color: black;
-        padding: 0 10px;
-        font-size: 25px;
-      }
-
-      .navbar-brand {
-        font-weight: bold;
-        color: black;
-      }
-
-      .navbar-light .navbar-toggler {
-        border-color: rgba(0, 0, 0, 0.4);
-      }
-
-      .navbar-nav :hover {
-        scale: 1.05;
-        transition: all;
-      }
-
-      .navbar-nav {
-        gap: 20px;
-        text-decoration: underline;
-      }
-
-      .card-body {
-        background: rgb(160, 198, 234);
-      }
-
-      .navbar {
-        /* background-image: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%); */
-      }
-      .grid-item h3,
-      .grid-item p {
-        color: #ffffff;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      }
-
-      .grid-item .item-price {
-        color: #ffffff;
-      }
-
-      .delet {
-        margin: 10px;
-      }
-    </style>
   </body>
 </html>

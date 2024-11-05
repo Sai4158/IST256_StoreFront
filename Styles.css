@@ -8,30 +8,20 @@ body {
   width: 100%;
   background: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
   background-size: cover;
-
   font-family: "Georama";
 }
 
-.item-title {
-  color: white;
-}
-.item-price {
-  color: white;
-}
-.item-description {
-  color: white;
-}
-.item-category {
-  color: white;
-}
-.item-unit {
-  color: white;
-}
+.item-title,
+.item-price,
+.item-description,
+.item-category,
+.item-unit,
 .item-weight {
   color: white;
 }
+
 .container {
-  padding: 20px;
+  padding: 15px;
   margin-top: 5px;
 }
 
@@ -39,16 +29,17 @@ body {
   font-size: 2rem;
   color: white;
   background-color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding: 10px;
   border-radius: 10px;
 }
 
 .head5 {
   color: white;
-  padding: 20px;
-  margin-top: 30px;
+  padding: 15px;
+  margin-top: 25px;
 }
+
 h1 {
   font-size: 3rem;
   background-image: linear-gradient(
@@ -59,28 +50,27 @@ h1 {
   );
   text-align: center;
   background-color: #dcf0f6;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
 }
+
 h1:hover {
   scale: 1.1;
-  transition: all;
-
-  transition: 1s;
+  transition: all 1s;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  padding: 10px;
+  gap: 8px;
+  padding: 8px;
 }
 
 .grid-item {
   background-color: #272626;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   text-align: center;
   transition: transform 0.2s;
 }
@@ -97,8 +87,7 @@ h1:hover {
 
 .item-title {
   font-size: 1.2rem;
-  color: white;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .item-price {
@@ -112,13 +101,13 @@ h1:hover {
   text-align: center;
   background-color: #272626;
   color: white;
-  padding: 20px;
-  margin-top: 40px;
+  padding: 15px;
+  margin-top: 30px;
   font-size: 1rem;
 }
 
 .list-group {
-  padding: 20px;
+  padding: 15px;
 }
 
 .footer a {
@@ -130,9 +119,17 @@ h1:hover {
   text-decoration: underline;
 }
 
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(100px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .navbar-nav .nav-link {
-  color: black;
-  padding: 0 10px;
+  color: rgb(255, 255, 255);
+  padding: 0 5px;
   font-size: 25px;
 }
 
@@ -147,11 +144,11 @@ h1:hover {
 
 .navbar-nav :hover {
   scale: 1.05;
-  transition: all;
+  transition: all 0.3s ease;
 }
 
 .navbar-nav {
-  gap: 20px;
+  gap: 15px;
   text-decoration: underline;
 }
 
@@ -159,9 +156,6 @@ h1:hover {
   background: rgb(160, 198, 234);
 }
 
-.navbar {
-  /* background-image: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%); */
-}
 .grid-item h3,
 .grid-item p {
   color: #ffffff;
@@ -174,5 +168,48 @@ h1:hover {
 }
 
 .delet {
-  margin: 10px;
+  margin: 8px;
+}
+
+/* Input Group for Search Bar */
+.input-group {
+  width: 60%;
+  margin: 15px auto;
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.input-group .form-control {
+  border: none;
+  border-radius: 6px;
+  margin-right: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-group .btn-primary,
+.input-group .btn-secondary {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-left: 5px;
+}
+
+.input-group .btn-primary:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+.input-group .btn-secondary:hover {
+  background-color: #5a6268;
+  color: #fff;
+}
+
+.input-group .form-control:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.8);
 }
