@@ -62,6 +62,8 @@ const shippingSchema = new mongoose.Schema({
   destination: String,
   carrier: String,
   method: String,
+  billingAddress: String,
+  paymentMethod: String,
 });
 const Shipping = mongoose.model("Shipping", shippingSchema);
 
