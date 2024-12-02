@@ -146,9 +146,7 @@ app.controller("ProductController", function ($http) {
         .delete(`${baseURL}/api/products/${productId}`)
         .then(() => {
           alert("Product deleted successfully!");
-          vm.products = vm.products.filter(
-            (product) => product._id !== productId
-          );
+          vm.getProducts(); 
         })
         .catch((error) => console.error("Error deleting product:", error));
     }
@@ -188,9 +186,9 @@ app.controller("ProductController", function ($http) {
   vm.addShopper = async function () {
     try {
       const response = await $http.post("/api/shoppers", vm.newShopper);
-      vm.shoppers.push(response.data);
-      vm.newShopper = {}; // Clear form fields
       alert("Shopper added successfully!");
+      vm.newShopper = {}; // Clear form fields
+      await vm.fetchShoppers();
     } catch (error) {
       console.error("Error adding shopper:", error);
       alert("Failed to add shopper.");
@@ -209,8 +207,16 @@ app.controller("ProductController", function ($http) {
   };
 
   // Edit Shopper (Pre-fill form for update)
-  vm.editShopper = function (shopper) {
-    vm.newShopper = angular.copy(shopper);
+  vm.editShopper = async function (shopper) {
+    try {
+      const response = await $http.put(`/api/shoppers/${shopper._id}`, shopper);
+      alert("Shopper updated successfully!");
+      await vm.fetchShoppers();
+      vm.newShopper = {};
+    } catch (error) {
+      console.error("Error updating shopper:", error);
+      alert("Failed to update shopper.");
+    }
   };
 
   // Delete Shopper
