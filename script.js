@@ -216,19 +216,20 @@ app.controller("ProductController", function ($http) {
   vm.saveShopperChanges = async function () {
     try {
       const response = await $http.put(
-        `/api/shoppers/name/${vm.newShopper.name}`,
+        `${baseURL}/api/shoppers/${vm.newShopper._id}`,
         vm.newShopper
       );
       alert("Shopper updated successfully!");
-      await vm.fetchShoppers();
-      vm.cancelEdit();
+      vm.newShopper = {};
+      vm.isEditing = false;
+      vm.fetchShoppers();
     } catch (error) {
       console.error("Error updating shopper:", error);
       alert("Failed to update shopper.");
     }
   };
 
-  // Cancel editing and reset form
+  // Cancel editing
   vm.cancelEdit = function () {
     vm.newShopper = {};
     vm.isEditing = false;

@@ -126,7 +126,7 @@
           <div class="container mt-5">
             <h2>Shopper Management</h2>
             <form
-              ng-submit="isEditing ? prodCtrl.saveShopperChanges() : prodCtrl.addShopper()"
+              ng-submit="prodCtrl.isEditing ? prodCtrl.saveShopperChanges() : prodCtrl.addShopper()"
             >
               <div class="mb-3">
                 <label class="form-label">Name</label>
@@ -136,7 +136,7 @@
                   ng-model="prodCtrl.newShopper.name"
                   placeholder="Enter Name"
                   required
-                  ng-readonly="isEditing"
+                  ng-readonly="prodCtrl.isEditing"
                 />
               </div>
               <div class="mb-3">
@@ -160,17 +160,49 @@
                 />
               </div>
               <button type="submit" class="btn btn-primary">
-                {{ isEditing ? "Save Changes" : "Add Shopper" }}
+                {{ prodCtrl.isEditing ? "Save Changes" : "Add Shopper" }}
               </button>
               <button
                 type="button"
                 class="btn btn-secondary"
-                ng-if="isEditing"
                 ng-click="prodCtrl.cancelEdit()"
+                ng-if="prodCtrl.isEditing"
               >
                 Cancel
               </button>
             </form>
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="shopper in prodCtrl.shoppers">
+                  <td>{{ shopper.name }}</td>
+                  <td>{{ shopper.email }}</td>
+                  <td>{{ shopper.phoneNumber }}</td>
+                  <td>
+                    <button
+                      class="btn btn-warning btn-sm"
+                      ng-click="prodCtrl.editShopper(shopper)"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      ng-click="prodCtrl.deleteShopper(shopper._id)"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <!-- Shopping Cart Section (Right Column) -->

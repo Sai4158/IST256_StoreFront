@@ -124,15 +124,16 @@ app.get("/api/shoppers/:id", async (req, res) => {
 });
 
 // Update Shopper by Name
-app.put("/api/shoppers/name/:name", async (req, res) => {
+app.put("/api/shoppers/:id", async (req, res) => {
   try {
-    const updatedShopper = await Shopper.findOneAndUpdate(
-      { name: req.params.name },
+    const updatedShopper = await Shopper.findByIdAndUpdate(
+      req.params.id,
       req.body,
       { new: true, runValidators: true }
     );
-    if (!updatedShopper)
+    if (!updatedShopper) {
       return res.status(404).json({ error: "Shopper not found" });
+    }
     res.status(200).json(updatedShopper);
   } catch (error) {
     console.error("Error updating shopper:", error);
