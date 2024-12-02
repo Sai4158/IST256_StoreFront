@@ -25,6 +25,8 @@ app.controller("ProductController", function ($http) {
   vm.searchPerformed = false;
   vm.returnDetails = {};
   vm.returnRequests = [];
+  vm.newShopper = {};
+  vm.shoppers = [];
 
   // Update each $http request to use the `baseURL`
   vm.getShippingDetails = function () {
@@ -182,9 +184,51 @@ app.controller("ProductController", function ($http) {
       });
   };
 
+  // Add Shopper
+  vm.addShopper = async function () {
+    try {
+      const response = await $http.post("/api/shoppers", vm.newShopper);
+      vm.shoppers.push(response.data);
+      vm.newShopper = {}; // Clear form fields
+      alert("Shopper added successfully!");
+    } catch (error) {
+      console.error("Error adding shopper:", error);
+      alert("Failed to add shopper.");
+    }
+  };
+
+  // Fetch Shoppers
+  vm.fetchShoppers = async function () {
+    try {
+      const response = await $http.get("/api/shoppers");
+      vm.shoppers = response.data;
+    } catch (error) {
+      console.error("Error fetching shoppers:", error);
+      alert("Failed to fetch shoppers.");
+    }
+  };
+
+  // Edit Shopper (Pre-fill form for update)
+  vm.editShopper = function (shopper) {
+    vm.newShopper = angular.copy(shopper);
+  };
+
+  // Delete Shopper
+  vm.deleteShopper = async function (id) {
+    try {
+      await $http.delete(`/api/shoppers/${id}`);
+      vm.shoppers = vm.shoppers.filter((shopper) => shopper._id !== id);
+      alert("Shopper deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting shopper:", error);
+      alert("Failed to delete shopper.");
+    }
+  };
+
   // Initialize by loading products and cart
   vm.getProducts();
   vm.getCart();
   vm.getShippingDetails();
   vm.getLatestReturnDetails();
+  vm.fetchShoppers();
 });
