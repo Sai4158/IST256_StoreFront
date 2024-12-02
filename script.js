@@ -146,7 +146,7 @@ app.controller("ProductController", function ($http) {
         .delete(`${baseURL}/api/products/${productId}`)
         .then(() => {
           alert("Product deleted successfully!");
-          vm.getProducts(); 
+          vm.getProducts();
         })
         .catch((error) => console.error("Error deleting product:", error));
     }
@@ -206,17 +206,32 @@ app.controller("ProductController", function ($http) {
     }
   };
 
-  // Edit Shopper (Pre-fill form for update)
-  vm.editShopper = async function (shopper) {
+  // Edit Shopper
+  vm.editShopper = function (shopper) {
+    vm.newShopper = angular.copy(shopper);
+    vm.isEditing = true;
+  };
+
+  // Save changes for the edited shopper
+  vm.saveShopperChanges = async function () {
     try {
-      const response = await $http.put(`/api/shoppers/${shopper._id}`, shopper);
+      const response = await $http.put(
+        `/api/shoppers/name/${vm.newShopper.name}`,
+        vm.newShopper
+      );
       alert("Shopper updated successfully!");
       await vm.fetchShoppers();
-      vm.newShopper = {};
+      vm.cancelEdit();
     } catch (error) {
       console.error("Error updating shopper:", error);
       alert("Failed to update shopper.");
     }
+  };
+
+  // Cancel editing and reset form
+  vm.cancelEdit = function () {
+    vm.newShopper = {};
+    vm.isEditing = false;
   };
 
   // Delete Shopper

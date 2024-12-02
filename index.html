@@ -125,7 +125,9 @@
           <!-- Shopper Management Section -->
           <div class="container mt-5">
             <h2>Shopper Management</h2>
-            <form ng-submit="prodCtrl.addShopper()">
+            <form
+              ng-submit="isEditing ? prodCtrl.saveShopperChanges() : prodCtrl.addShopper()"
+            >
               <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input
@@ -134,6 +136,7 @@
                   ng-model="prodCtrl.newShopper.name"
                   placeholder="Enter Name"
                   required
+                  ng-readonly="isEditing"
                 />
               </div>
               <div class="mb-3">
@@ -156,53 +159,20 @@
                   required
                 />
               </div>
-              <button type="submit" class="btn btn-primary">Add Shopper</button>
+              <button type="submit" class="btn btn-primary">
+                {{ isEditing ? "Save Changes" : "Add Shopper" }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                ng-if="isEditing"
+                ng-click="prodCtrl.cancelEdit()"
+              >
+                Cancel
+              </button>
             </form>
-            <hr />
-
-            <div>
-              <h3>Shoppers List</h3>
-              <input
-                type="text"
-                class="form-control mb-3"
-                ng-model="prodCtrl.searchShopper"
-                placeholder="Search by Name"
-              />
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    ng-repeat="shopper in prodCtrl.shoppers | filter: { name: prodCtrl.searchShopper }"
-                  >
-                    <td>{{ shopper.name }}</td>
-                    <td>{{ shopper.email }}</td>
-                    <td>{{ shopper.phoneNumber }}</td>
-                    <td>
-                      <button
-                        class="btn btn-warning btn-sm"
-                        ng-click="prodCtrl.editShopper(shopper)"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-danger btn-sm"
-                        ng-click="prodCtrl.deleteShopper(shopper._id)"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
+
           <!-- Shopping Cart Section (Right Column) -->
 
           <h2>Shopping Cart</h2>
