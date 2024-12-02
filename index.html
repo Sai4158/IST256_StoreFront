@@ -187,18 +187,20 @@
                   <td>{{ shopper.email }}</td>
                   <td>{{ shopper.phoneNumber }}</td>
                   <td>
-                    <button
-                      class="btn btn-warning btn-sm"
-                      ng-click="prodCtrl.editShopper(shopper)"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      class="btn btn-danger btn-sm"
-                      ng-click="prodCtrl.deleteShopper(shopper._id)"
-                    >
-                      Delete
-                    </button>
+                    <div class="action-buttons">
+                      <button
+                        class="btn btn-warning btn-sm"
+                        ng-click="prodCtrl.editShopper(shopper)"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm"
+                        ng-click="prodCtrl.deleteShopper(shopper._id)"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               </tbody>

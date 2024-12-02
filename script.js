@@ -239,8 +239,8 @@ app.controller("ProductController", function ($http) {
   vm.deleteShopper = async function (id) {
     try {
       await $http.delete(`${baseURL}/api/shoppers/${id}`);
-      vm.shoppers = vm.shoppers.filter((shopper) => shopper._id !== id);
       alert("Shopper deleted successfully!");
+      await vm.fetchShoppers();
     } catch (error) {
       console.error("Error deleting shopper:", error);
       alert("Failed to delete shopper.");
