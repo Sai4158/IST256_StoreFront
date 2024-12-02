@@ -142,13 +142,12 @@ app.put("/api/shoppers/:id", async (req, res) => {
 });
 
 // Delete Shopper by Name
-app.delete("/api/shoppers/name/:name", async (req, res) => {
+app.delete("/api/shoppers/:id", async (req, res) => {
   try {
-    const deletedShopper = await Shopper.findOneAndDelete({
-      name: req.params.name,
-    });
-    if (!deletedShopper)
+    const deletedShopper = await Shopper.findByIdAndDelete(req.params.id);
+    if (!deletedShopper) {
       return res.status(404).json({ error: "Shopper not found" });
+    }
     res.status(200).json({ message: "Shopper deleted successfully" });
   } catch (error) {
     console.error("Error deleting shopper:", error);
