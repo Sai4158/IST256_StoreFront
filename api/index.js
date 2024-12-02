@@ -76,6 +76,85 @@ const returnSchema = new mongoose.Schema({
 });
 const Return = mongoose.model("Return", returnSchema);
 
+// -------------
+
+// Schema for Shopper Collection
+const shopperSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phoneNumber: { type: String, required: true },
+});
+
+const Shopper = mongoose.model("Shopper", shopperSchema);
+module.exports = Shopper;
+
+// API Routes for Shopper
+app.post("/api/shoppers", async (req, res) => {
+  try {
+    const shopper = new Shopper(req.body);
+    await shopper.save();
+    res.status(201).json(shopper);
+  } catch (error) {
+    console.error("Error creating shopper:", error);
+    res.status(500).json({ error: "Error creating shopper" });
+  }
+});
+
+// Get All Shoppers
+app.get("/api/shoppers", async (req, res) => {
+  try {
+    const shoppers = await Shopper.find();
+    res.status(200).json(shoppers);
+  } catch (error) {
+    console.error("Error fetching shoppers:", error);
+    res.status(500).json({ error: "Error fetching shoppers" });
+  }
+});
+
+// Get Shopper by ID
+app.get("/api/shoppers/:id", async (req, res) => {
+  try {
+    const shopper = await Shopper.findById(req.params.id);
+    if (!shopper) return res.status(404).json({ error: "Shopper not found" });
+    res.status(200).json(shopper);
+  } catch (error) {
+    console.error("Error fetching shopper:", error);
+    res.status(500).json({ error: "Error fetching shopper" });
+  }
+});
+
+// Update Shopper
+app.put("/api/shoppers/:id", async (req, res) => {
+  try {
+    const updatedShopper = await Shopper.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!updatedShopper)
+      return res.status(404).json({ error: "Shopper not found" });
+    res.status(200).json(updatedShopper);
+  } catch (error) {
+    console.error("Error updating shopper:", error);
+    res.status(500).json({ error: "Error updating shopper" });
+  }
+});
+
+// Delete Shopper
+app.delete("/api/shoppers/:id", async (req, res) => {
+  try {
+    const deletedShopper = await Shopper.findByIdAndDelete(req.params.id);
+    if (!deletedShopper)
+      return res.status(404).json({ error: "Shopper not found" });
+    res.status(200).json({ message: "Shopper deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting shopper:", error);
+    res.status(500).json({ error: "Error deleting shopper" });
+  }
+});
+
+// ---------------
+
 // Route to handle product returns
 app.post("/api/returns", async (req, res) => {
   try {
