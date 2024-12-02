@@ -222,7 +222,7 @@ app.controller("ProductController", function ($http) {
       alert("Shopper updated successfully!");
       vm.newShopper = {};
       vm.isEditing = false;
-      vm.fetchShoppers();
+      await vm.fetchShoppers();
     } catch (error) {
       console.error("Error updating shopper:", error);
       alert("Failed to update shopper.");
@@ -238,7 +238,7 @@ app.controller("ProductController", function ($http) {
   // Delete Shopper
   vm.deleteShopper = async function (id) {
     try {
-      await $http.delete(`/api/shoppers/${id}`);
+      await $http.delete(`${baseURL}/api/shoppers/${id}`);
       vm.shoppers = vm.shoppers.filter((shopper) => shopper._id !== id);
       alert("Shopper deleted successfully!");
     } catch (error) {
