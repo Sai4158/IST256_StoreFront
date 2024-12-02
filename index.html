@@ -122,91 +122,6 @@
         </div>
 
         <div class="col-md-4">
-          <!-- Shopper Management Section -->
-          <div class="container mt-5">
-            <h2>Shopper Management</h2>
-            <form
-              ng-submit="prodCtrl.isEditing ? prodCtrl.saveShopperChanges() : prodCtrl.addShopper()"
-            >
-              <div class="mb-3">
-                <label class="form-label">Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  ng-model="prodCtrl.newShopper.name"
-                  placeholder="Enter Name"
-                  required
-                  ng-readonly="prodCtrl.isEditing"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  ng-model="prodCtrl.newShopper.email"
-                  placeholder="Enter Email"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Phone Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  ng-model="prodCtrl.newShopper.phoneNumber"
-                  placeholder="Enter Phone Number"
-                  required
-                />
-              </div>
-              <button type="submit" class="btn btn-primary">
-                {{ prodCtrl.isEditing ? "Save Changes" : "Add Shopper" }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                ng-click="prodCtrl.cancelEdit()"
-                ng-if="prodCtrl.isEditing"
-              >
-                Cancel
-              </button>
-            </form>
-
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone Number</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="shopper in prodCtrl.shoppers">
-                  <td>{{ shopper.name }}</td>
-                  <td>{{ shopper.email }}</td>
-                  <td>{{ shopper.phoneNumber }}</td>
-                  <td>
-                    <div class="action-buttons">
-                      <button
-                        class="btn btn-warning btn-sm"
-                        ng-click="prodCtrl.editShopper(shopper)"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-danger btn-sm"
-                        ng-click="prodCtrl.deleteShopper(shopper._id)"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
           <!-- Shopping Cart Section (Right Column) -->
 
           <h2>Shopping Cart</h2>
@@ -329,6 +244,90 @@
               </div>
             </div>
           </div>
+        </div>
+        <!-- Shopper Management Section -->
+        <div class="container mt-5">
+          <h2>Add Employees</h2>
+          <form
+            ng-submit="prodCtrl.isEditing ? prodCtrl.saveShopperChanges() : prodCtrl.addShopper()"
+          >
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                ng-model="prodCtrl.newShopper.name"
+                placeholder="Enter Name"
+                required
+                ng-readonly="prodCtrl.isEditing"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                ng-model="prodCtrl.newShopper.email"
+                placeholder="Enter Email"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone Number</label>
+              <input
+                type="text"
+                class="form-control"
+                ng-model="prodCtrl.newShopper.phoneNumber"
+                placeholder="Enter Phone Number"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              {{ prodCtrl.isEditing ? "Save Changes" : "Add Shopper" }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              ng-click="prodCtrl.cancelEdit()"
+              ng-if="prodCtrl.isEditing"
+            >
+              Cancel
+            </button>
+          </form>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="shopper in prodCtrl.shoppers">
+                <td>{{ shopper.name }}</td>
+                <td>{{ shopper.email }}</td>
+                <td>{{ shopper.phoneNumber }}</td>
+                <td>
+                  <div class="action-buttons">
+                    <button
+                      class="btn btn-warning btn-sm"
+                      ng-click="prodCtrl.editShopper(shopper)"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      ng-click="prodCtrl.deleteShopper(shopper._id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <hr />
