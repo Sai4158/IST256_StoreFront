@@ -248,53 +248,72 @@
         <!-- Shopper Management Section -->
         <div class="container mt-5">
           <hr />
+
           <h2>Add Employees</h2>
-          <form
-            ng-submit="prodCtrl.isEditing ? prodCtrl.saveShopperChanges() : prodCtrl.addShopper()"
-          >
-            <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                ng-model="prodCtrl.newShopper.name"
-                placeholder="Enter Name"
-                required
-                ng-readonly="prodCtrl.isEditing"
+
+          <div class="row align-items-center my-4">
+            <!-- Image on the left -->
+            <div class="col-md-4 text-center">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/1256/1256628.png"
+                alt="Employee Form"
+                class="img-fluid rounded"
+                style="max-width: 100%; height: auto"
               />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                ng-model="prodCtrl.newShopper.email"
-                placeholder="Enter Email"
-                required
-              />
+
+            <!-- Form on the right -->
+            <div class="col-md-8">
+              <form
+                ng-submit="prodCtrl.isEditing ? prodCtrl.saveShopperChanges() : prodCtrl.addShopper()"
+              >
+                <div class="mb-3">
+                  <label class="form-label">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-model="prodCtrl.newShopper.name"
+                    placeholder="Enter Name"
+                    required
+                    ng-readonly="prodCtrl.isEditing"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    ng-model="prodCtrl.newShopper.email"
+                    placeholder="Enter Email"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Phone Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-model="prodCtrl.newShopper.phoneNumber"
+                    placeholder="Enter Phone Number"
+                    required
+                  />
+                </div>
+                <div class="mt-3 text-center">
+                  <button type="submit" class="btn btn-success">
+                    {{ prodCtrl.isEditing ? "Save Changes" : "Add Employee" }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    ng-click="prodCtrl.cancelEdit()"
+                    ng-if="prodCtrl.isEditing"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Phone Number</label>
-              <input
-                type="text"
-                class="form-control"
-                ng-model="prodCtrl.newShopper.phoneNumber"
-                placeholder="Enter Phone Number"
-                required
-              />
-            </div>
-            <button type="submit" class="btn btn-primary">
-              {{ prodCtrl.isEditing ? "Save Changes" : "Add Shopper" }}
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              ng-click="prodCtrl.cancelEdit()"
-              ng-if="prodCtrl.isEditing"
-            >
-              Cancel
-            </button>
-          </form>
+          </div>
 
           <table class="table table-striped" ng-if="prodCtrl.shoppers.length">
             <thead>
