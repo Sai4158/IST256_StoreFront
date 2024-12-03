@@ -4,7 +4,7 @@ let products = [];
 // AngularJS app
 const app = angular.module("storeApp", []);
 
-app.controller("ProductController", function ($http) {
+app.controller("ProductController", function ($http, $scope) {
   const vm = this;
   vm.products = [];
   vm.cart = [];
@@ -183,27 +183,31 @@ app.controller("ProductController", function ($http) {
   };
 
   // Add Shopper
-  vm.addShopper = async function () {
-    try {
-      const response = await $http.post("/api/shoppers", vm.newShopper);
-      alert("Shopper added successfully!");
-      vm.newShopper = {}; // Clear form fields
-      await vm.fetchShoppers();
-    } catch (error) {
-      console.error("Error adding shopper:", error);
-      alert("Failed to add shopper.");
-    }
+  vm.addShopper = function () {
+    $http
+      .post(`${baseURL}/api/shoppers`, vm.newShopper)
+      .then((response) => {
+        alert("Shopper added successfully!");
+        vm.newShopper = {};
+        vm.fetchShoppers();
+      })
+      .catch((error) => {
+        console.error("Error adding shopper:", error);
+        alert("Failed to add shopper.");
+      });
   };
 
   // Fetch Shoppers
-  vm.fetchShoppers = async function () {
-    try {
-      const response = await $http.get("/api/shoppers");
-      vm.shoppers = response.data;
-    } catch (error) {
-      console.error("Error fetching shoppers:", error);
-      alert("Failed to fetch shoppers.");
-    }
+  vm.fetchShoppers = function () {
+    $http
+      .get(`${baseURL}/api/shoppers`)
+      .then((response) => {
+        vm.shoppers = response.data; 
+      })
+      .catch((error) => {
+        console.error("Error fetching shoppers:", error);
+        alert("Failed to fetch shoppers.");
+      });
   };
 
   // Edit Shopper
@@ -213,20 +217,19 @@ app.controller("ProductController", function ($http) {
   };
 
   // Save changes for the edited shopper
-  vm.saveShopperChanges = async function () {
-    try {
-      const response = await $http.put(
-        `${baseURL}/api/shoppers/${vm.newShopper._id}`,
-        vm.newShopper
-      );
-      alert("Shopper updated successfully!");
-      vm.newShopper = {};
-      vm.isEditing = false;
-      await vm.fetchShoppers();
-    } catch (error) {
-      console.error("Error updating shopper:", error);
-      alert("Failed to update shopper.");
-    }
+  vm.saveShopperChanges = function () {
+    $http
+      .put(`${baseURL}/api/shoppers/${vm.newShopper._id}`, vm.newShopper)
+      .then((response) => {
+        alert("Shopper updated successfully!");
+        vm.newShopper = {};
+        vm.isEditing = false;
+        vm.fetchShoppers();
+      })
+      .catch((error) => {
+        console.error("Error updating shopper:", error);
+        alert("Failed to update shopper.");
+      });
   };
 
   // Cancel editing
@@ -236,14 +239,18 @@ app.controller("ProductController", function ($http) {
   };
 
   // Delete Shopper
-  vm.deleteShopper = async function (id) {
-    try {
-      await $http.delete(`${baseURL}/api/shoppers/${id}`);
-      alert("Shopper deleted successfully!");
-      await vm.fetchShoppers();
-    } catch (error) {
-      console.error("Error deleting shopper:", error);
-      alert("Failed to delete shopper.");
+  vm.deleteShopper = function (id) {
+    if (confirm("Are you sure you want to delete this shopper?")) {
+      $http
+        .delete(`${baseURL}/api/shoppers/${id}`)
+        .then(() => {
+          alert("Shopper deleted successfully!");
+          vm.fetchShoppers();
+        })
+        .catch((error) => {
+          console.error("Error deleting shopper:", error);
+          alert("Failed to delete shopper.");
+        });
     }
   };
 
